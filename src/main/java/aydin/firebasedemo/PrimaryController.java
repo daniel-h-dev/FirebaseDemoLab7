@@ -23,6 +23,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class PrimaryController {
+
+    @FXML
+    public TextField numberTextField;
+
     @FXML
     private TextField ageTextField;
 
@@ -98,10 +102,11 @@ public class PrimaryController {
                 for (QueryDocumentSnapshot document : documents)
                 {
                     outputTextArea.setText(outputTextArea.getText()+ document.getData().get("Name")+ " , Age: "+
-                            document.getData().get("Age")+ " \n ");
+                            document.getData().get("Age")+ " , Phone Number: "+
+                            document.getData().get("Phone Number") + " \n ");
                     System.out.println(document.getId() + " => " + document.getData().get("Name"));
                     person  = new Person(String.valueOf(document.getData().get("Name")),
-                            Integer.parseInt(document.getData().get("Age").toString()));
+                            Integer.parseInt(document.getData().get("Age").toString()), Integer.parseInt(document.getData().get("Number").toString()));
                     listOfUsers.add(person);
                 }
             }
@@ -150,6 +155,7 @@ public class PrimaryController {
         Map<String, Object> data = new HashMap<>();
         data.put("Name", nameTextField.getText());
         data.put("Age", Integer.parseInt(ageTextField.getText()));
+        data.put("Phone Number", numberTextField.getText());
 
         //asynchronously write data
         ApiFuture<WriteResult> result = docRef.set(data);
